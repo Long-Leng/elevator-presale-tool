@@ -2196,6 +2196,20 @@ function App() {
       });
     };
   };
+
+  // ── Auto save draft every change ──────────────────────────────────
+  useEffect(function () {
+    if (view === 'edit' && editSpec) {
+      try {
+        localStorage.setItem('presale_draft', JSON.stringify({
+          editSpec: editSpec,
+          editFeats: editFeats,
+          wizStep: wizStep,
+          editIdx: editIdx
+        }));
+      } catch (e) {}
+    }
+  }, [editSpec, editFeats, wizStep, view]);
   var openNew = function openNew(type) {
     // Check for existing draft
     try {
