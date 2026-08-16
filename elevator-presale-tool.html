@@ -2164,6 +2164,16 @@ function App() {
       var g = localStorage.getItem('pres_groups');
       if (g) setGroups(JSON.parse(g));
     } catch (e) {}
+    // Check for draft on load
+    try {
+      var d = localStorage.getItem('presale_draft');
+      if (d) {
+        var parsed = JSON.parse(d);
+        if (parsed.editSpec && parsed.editIdx === null) {
+          setShowDraftModal(true);
+        }
+      }
+    } catch (e) {}
     var el = document.createElement('style');
     el.innerHTML = '@media print{.no-print{display:none!important}body{margin:0}.print-only{display:block!important}}';
     document.head.appendChild(el);
@@ -2211,18 +2221,6 @@ function App() {
     }
   }, [editSpec, editFeats, wizStep, view]);
   var openNew = function openNew(type) {
-    // Check for existing draft
-    try {
-      var d = localStorage.getItem('presale_draft');
-      if (d) {
-        var parsed = JSON.parse(d);
-        if (parsed.editSpec && parsed.editIdx === null) {
-          setPendingNewType(type);
-          setShowDraftModal(true);
-          return;
-        }
-      }
-    } catch (e) {}
     _openNew(type);
   };
   var _openNew = function _openNew(type) {
@@ -3301,7 +3299,17 @@ function App() {
     }
   }, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      return setView('list');
+      if (editSpec) {
+        try {
+          localStorage.setItem('presale_draft', JSON.stringify({
+            editSpec: editSpec,
+            editFeats: editFeats,
+            wizStep: wizStep,
+            editIdx: editIdx
+          }));
+        } catch (e) {}
+      }
+      setView('list');
     },
     style: {
       padding: "7px 12px",
@@ -5609,6 +5617,16 @@ function App() {
     }
   }, "\u2190 Back"), wizStep < totalSteps ? /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
+      if (editSpec) {
+        try {
+          localStorage.setItem('presale_draft', JSON.stringify({
+            editSpec: editSpec,
+            editFeats: editFeats,
+            wizStep: wizStep + 1,
+            editIdx: editIdx
+          }));
+        } catch (e) {}
+      }
       setErrors({});
       setWizStep(function (s) {
         return s + 1;
