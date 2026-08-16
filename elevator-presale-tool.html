@@ -2225,7 +2225,7 @@ function App() {
       var d = localStorage.getItem('presale_draft');
       if (d) {
         var parsed = JSON.parse(d);
-        if (parsed.editSpec && parsed.editIdx === null) {
+        if (parsed.editSpec) {
           setPendingNewType(type);
           setShowDraftModal(true);
           return;
