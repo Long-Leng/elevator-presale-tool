@@ -2221,6 +2221,17 @@ function App() {
     }
   }, [editSpec, editFeats, wizStep, view]);
   var openNew = function openNew(type) {
+    try {
+      var d = localStorage.getItem('presale_draft');
+      if (d) {
+        var parsed = JSON.parse(d);
+        if (parsed.editSpec && parsed.editIdx === null) {
+          setPendingNewType(type);
+          setShowDraftModal(true);
+          return;
+        }
+      }
+    } catch (e) {}
     _openNew(type);
   };
   var _openNew = function _openNew(type) {
