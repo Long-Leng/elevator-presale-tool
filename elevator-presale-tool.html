@@ -3163,7 +3163,8 @@ function App() {
     style: {
       display: "flex",
       alignItems: "center",
-      gap: 6
+      gap: 6,
+      flexWrap: "wrap"
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
@@ -3171,7 +3172,7 @@ function App() {
       fontWeight: 500,
       color: AMBERD
     }
-  }, draftCard.editSpec.product || "Draft", " ", draftCard.editSpec.code || ""), /*#__PURE__*/React.createElement("span", {
+  }, draftCard.editSpec.elevNo ? "Lift ".concat(draftCard.editSpec.elevNo) : "", draftCard.editSpec.elevNo && draftCard.editSpec.product ? " — " : "", draftCard.editSpec.product || "New Lift", draftCard.editSpec.code ? " / ".concat(draftCard.editSpec.code) : ""), /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 9.5,
       background: "#fde68a",
@@ -3180,14 +3181,22 @@ function App() {
       borderRadius: 3,
       fontWeight: 600
     }
-  }, "DRAFT")), /*#__PURE__*/React.createElement("div", {
+  }, "DRAFT")), draftCard.editSpec.building && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#b45309",
+      marginTop: 1
+    }
+  }, draftCard.editSpec.building), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 11,
       color: "#b45309",
       marginTop: 2
     }
   }, function () {
-    var steps = draftCard.editSpec.source === 'SMEC' ? ["Technical Spec", "Appearance", "Features", "Local Scope"] : ["Source & Product", "Performance", "Car Design & COP", "Entrance & Features", "Local Scope"];
+    var isE = draftCard.editSpec.source === 'SMEC';
+    var isF = draftCard.editSpec.liftType === 'Freight';
+    var steps = isE ? ["Technical Spec", "Appearance", "Features", "Local Scope"] : isF ? ["Source & Product", "Performance", "Car Design & COP", "Entrance & Features", "Local Scope"] : ["Source & Product", "Performance", "Car Design & COP", "Entrance & Features", "Local Scope"];
     var s = draftCard.wizStep || 1;
     return "Step ".concat(s, "/").concat(steps.length, " \u2014 ").concat(steps[s - 1] || "", " (\u0E04\u0E49\u0E32\u0E07\u0E2D\u0E22\u0E39\u0E48)");
   }()), /*#__PURE__*/React.createElement("div", {
@@ -3196,7 +3205,9 @@ function App() {
       gap: 4,
       marginTop: 5
     }
-  }, [1, 2, 3, 4, 5].slice(0, draftCard.editSpec.source === 'SMEC' ? 4 : 5).map(function (s, i) {
+  }, Array.from({
+    length: draftCard.editSpec.source === 'SMEC' ? 4 : 5
+  }, function (_, i) {
     return /*#__PURE__*/React.createElement("div", {
       key: i,
       style: {
@@ -3253,7 +3264,7 @@ function App() {
       gridTemplateColumns: "repeat(3,1fr)",
       gap: 8
     }
-  }, [["Product", draftCard.editSpec.product || "—"], ["Code", draftCard.editSpec.code || "—"], ["Speed", draftCard.editSpec.speed ? draftCard.editSpec.speed + " m/s" : "—"]].map(function (_ref10) {
+  }, [["Elevator No.", draftCard.editSpec.elevNo || "—"], ["Product", draftCard.editSpec.product || "—"], ["Code", draftCard.editSpec.code || "—"], ["Speed", draftCard.editSpec.speed ? draftCard.editSpec.speed + " m/s" : "—"], ["Capacity", draftCard.editSpec.kg ? draftCard.editSpec.kg + " kg" : "—"], ["Door Type", draftCard.editSpec.doorType || "—"]].map(function (_ref10) {
     var _ref11 = _slicedToArray(_ref10, 2),
       l = _ref11[0],
       v = _ref11[1];
