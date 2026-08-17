@@ -1920,42 +1920,46 @@ function App() {
     _useState22 = _slicedToArray(_useState21, 2),
     pendingNewType = _useState22[0],
     setPendingNewType = _useState22[1];
-  var _useState23 = useState(''),
+  var _useState23 = useState(null),
     _useState24 = _slicedToArray(_useState23, 2),
-    saveMsg = _useState24[0],
-    setSaveMsg = _useState24[1];
-  var _useState25 = useState({}),
+    draftCard = _useState24[0],
+    setDraftCard = _useState24[1];
+  var _useState25 = useState(''),
     _useState26 = _slicedToArray(_useState25, 2),
-    expanded = _useState26[0],
-    setExpanded = _useState26[1];
+    saveMsg = _useState26[0],
+    setSaveMsg = _useState26[1];
   var _useState27 = useState({}),
     _useState28 = _slicedToArray(_useState27, 2),
-    errors = _useState28[0],
-    setErrors = _useState28[1];
-  var _useState29 = useState(null),
+    expanded = _useState28[0],
+    setExpanded = _useState28[1];
+  var _useState29 = useState({}),
     _useState30 = _slicedToArray(_useState29, 2),
-    xlsUrl = _useState30[0],
-    setXlsUrl = _useState30[1];
-  var _useState31 = useState(''),
+    errors = _useState30[0],
+    setErrors = _useState30[1];
+  var _useState31 = useState(null),
     _useState32 = _slicedToArray(_useState31, 2),
-    xlsName = _useState32[0],
-    setXlsName = _useState32[1];
-  var _useState33 = useState(false),
+    xlsUrl = _useState32[0],
+    setXlsUrl = _useState32[1];
+  var _useState33 = useState(''),
     _useState34 = _slicedToArray(_useState33, 2),
-    uploading = _useState34[0],
-    setUploading = _useState34[1];
-  var _useState35 = useState(null),
+    xlsName = _useState34[0],
+    setXlsName = _useState34[1];
+  var _useState35 = useState(false),
     _useState36 = _slicedToArray(_useState35, 2),
-    uploadError = _useState36[0],
-    setUploadError = _useState36[1];
-  var _useState37 = useState(false),
+    uploading = _useState36[0],
+    setUploading = _useState36[1];
+  var _useState37 = useState(null),
     _useState38 = _slicedToArray(_useState37, 2),
-    showKeyModal = _useState38[0],
-    setShowKeyModal = _useState38[1];
-  var _useState39 = useState(''),
+    uploadError = _useState38[0],
+    setUploadError = _useState38[1];
+  var _useState39 = useState(false),
     _useState40 = _slicedToArray(_useState39, 2),
-    geminiKeyInput = _useState40[0],
-    setGeminiKeyInput = _useState40[1];
+    showKeyModal = _useState40[0],
+    setShowKeyModal = _useState40[1];
+  var _useState41 = useState(''),
+    _useState42 = _slicedToArray(_useState41, 2),
+    geminiKeyInput = _useState42[0],
+    setGeminiKeyInput = _useState42[1];
   var fileRef = useRef(null);
   var importRef = useRef(null);
   var exportJSON = function exportJSON() {
@@ -2164,14 +2168,12 @@ function App() {
       var g = localStorage.getItem('pres_groups');
       if (g) setGroups(JSON.parse(g));
     } catch (e) {}
-    // Check for draft on load
+    // Load draft card on mount
     try {
       var d = localStorage.getItem('presale_draft');
       if (d) {
         var parsed = JSON.parse(d);
-        if (parsed.editSpec && parsed.editIdx === null) {
-          setShowDraftModal(true);
-        }
+        if (parsed.editSpec) setDraftCard(parsed);
       }
     } catch (e) {}
     var el = document.createElement('style');
@@ -2306,6 +2308,7 @@ function App() {
     try {
       localStorage.removeItem('presale_draft');
     } catch (e) {}
+    setDraftCard(null);
     setView('list');
     window.scrollTo(0, 0);
   };
@@ -2749,9 +2752,10 @@ function App() {
       fontWeight: 500,
       fontFamily: "inherit"
     }
-  }, "\u0E01\u0E23\u0E2D\u0E01\u0E15\u0E48\u0E2D \u2705"), /*#__PURE__*/React.createElement("button", {
+  }, "Continue \u2192"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       localStorage.removeItem('presale_draft');
+      setDraftCard(null);
       setShowDraftModal(false);
       _openNew(pendingNewType);
     },
@@ -2765,7 +2769,7 @@ function App() {
       fontSize: 13,
       fontFamily: "inherit"
     }
-  }, "\u0E40\u0E23\u0E34\u0E48\u0E21\u0E43\u0E2B\u0E21\u0E48")))), view !== 'edit' && /*#__PURE__*/React.createElement("div", {
+  }, "Delete & Start New")))), view !== 'edit' && /*#__PURE__*/React.createElement("div", {
     className: "no-print",
     style: {
       position: "sticky",
@@ -3122,7 +3126,158 @@ function App() {
       color: "var(--color-text-muted)",
       fontSize: 13
     }
-  }, "No groups yet \u2014 add a lift group or escalator to get started"), groups.map(function (g, i) {
+  }, "No groups yet \u2014 add a lift group or escalator to get started"), draftCard && draftCard.editSpec && /*#__PURE__*/React.createElement("div", {
+    style: {
+      border: "1.5px dashed " + AMBER,
+      borderRadius: 12,
+      marginBottom: 10,
+      overflow: "hidden",
+      background: "#fffbf0"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
+      padding: "10px 14px",
+      background: "#fef9e7",
+      borderBottom: "0.5px solid #fde68a"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 28,
+      height: 28,
+      borderRadius: 7,
+      background: "#fde68a",
+      color: AMBERD,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 14
+    }
+  }, "\uD83D\uDCDD"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13.5,
+      fontWeight: 500,
+      color: AMBERD
+    }
+  }, draftCard.editSpec.product || "Draft", " ", draftCard.editSpec.code || ""), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 9.5,
+      background: "#fde68a",
+      color: AMBERD,
+      padding: "1px 7px",
+      borderRadius: 3,
+      fontWeight: 600
+    }
+  }, "DRAFT")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#b45309",
+      marginTop: 2
+    }
+  }, function () {
+    var steps = draftCard.editSpec.source === 'SMEC' ? ["Technical Spec", "Appearance", "Features", "Local Scope"] : ["Source & Product", "Performance", "Car Design & COP", "Entrance & Features", "Local Scope"];
+    var s = draftCard.wizStep || 1;
+    return "Step ".concat(s, "/").concat(steps.length, " \u2014 ").concat(steps[s - 1] || "", " (\u0E04\u0E49\u0E32\u0E07\u0E2D\u0E22\u0E39\u0E48)");
+  }()), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 4,
+      marginTop: 5
+    }
+  }, [1, 2, 3, 4, 5].slice(0, draftCard.editSpec.source === 'SMEC' ? 4 : 5).map(function (s, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        background: i < (draftCard.wizStep || 1) ? AMBER : "var(--color-border-secondary)"
+      }
+    });
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      setEditSpec(draftCard.editSpec);
+      setEditFeats(draftCard.editFeats || _objectSpread({}, INIT_FEATS));
+      setWizStep(draftCard.wizStep || 1);
+      setEditIdx(null);
+      setErrors({});
+      setView('edit');
+    },
+    style: {
+      padding: "6px 14px",
+      borderRadius: 7,
+      border: "none",
+      background: AMBER,
+      color: NAV,
+      fontSize: 12,
+      fontWeight: 500,
+      cursor: "pointer",
+      fontFamily: "inherit"
+    }
+  }, "Continue \u2192"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      localStorage.removeItem('presale_draft');
+      setDraftCard(null);
+    },
+    style: {
+      padding: "6px 12px",
+      borderRadius: 7,
+      border: "0.5px solid #fca5a5",
+      background: "transparent",
+      color: "var(--color-text-danger)",
+      fontSize: 12,
+      cursor: "pointer",
+      fontFamily: "inherit"
+    }
+  }, "Delete"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "10px 14px",
+      display: "grid",
+      gridTemplateColumns: "repeat(3,1fr)",
+      gap: 8
+    }
+  }, [["Product", draftCard.editSpec.product || "—"], ["Code", draftCard.editSpec.code || "—"], ["Speed", draftCard.editSpec.speed ? draftCard.editSpec.speed + " m/s" : "—"]].map(function (_ref10) {
+    var _ref11 = _slicedToArray(_ref10, 2),
+      l = _ref11[0],
+      v = _ref11[1];
+    return /*#__PURE__*/React.createElement("div", {
+      key: l,
+      style: {
+        background: "#fef3c7",
+        borderRadius: 8,
+        padding: "7px 10px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "#b45309",
+        marginBottom: 2
+      }
+    }, l), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 500,
+        color: AMBERD
+      }
+    }, v));
+  }))), groups.map(function (g, i) {
     var s = g.spec;
     var isE = g.type === 'escalator';
     return /*#__PURE__*/React.createElement("div", {
@@ -3250,10 +3405,10 @@ function App() {
         gap: 16,
         flexWrap: "wrap"
       }
-    }, /*#__PURE__*/React.createElement("span", null, "\u2699\uFE0F ", s.escOperation || "—"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCE6 ", s.escQty || 1, " unit(s)"))) : [["Code", s.code || "—"], ["Capacity", s.kg ? "".concat(s.kg, " kg (").concat(s.persons, "P)") : "—"], ["Speed", s.speed ? "".concat(s.speed, " m/s") : "—"], ["Door", s.doorType ? "".concat(s.doorType).concat(s.carDoorWidth && s.carDoorWidth !== "remark" ? " — " + s.carDoorWidth + "mm" : "") : "—"], ["No. of stop", s.floor || "—"], ["Quantity", "".concat(s.quantity, " unit(s)")]].map(function (_ref10) {
-      var _ref11 = _slicedToArray(_ref10, 2),
-        l = _ref11[0],
-        v = _ref11[1];
+    }, /*#__PURE__*/React.createElement("span", null, "\u2699\uFE0F ", s.escOperation || "—"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCE6 ", s.escQty || 1, " unit(s)"))) : [["Code", s.code || "—"], ["Capacity", s.kg ? "".concat(s.kg, " kg (").concat(s.persons, "P)") : "—"], ["Speed", s.speed ? "".concat(s.speed, " m/s") : "—"], ["Door", s.doorType ? "".concat(s.doorType).concat(s.carDoorWidth && s.carDoorWidth !== "remark" ? " — " + s.carDoorWidth + "mm" : "") : "—"], ["No. of stop", s.floor || "—"], ["Quantity", "".concat(s.quantity, " unit(s)")]].map(function (_ref12) {
+      var _ref13 = _slicedToArray(_ref12, 2),
+        l = _ref13[0],
+        v = _ref13[1];
       return /*#__PURE__*/React.createElement("div", {
         key: l,
         style: {
@@ -3311,14 +3466,16 @@ function App() {
   }, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       if (editSpec) {
+        var d = {
+          editSpec: editSpec,
+          editFeats: editFeats,
+          wizStep: wizStep,
+          editIdx: editIdx
+        };
         try {
-          localStorage.setItem('presale_draft', JSON.stringify({
-            editSpec: editSpec,
-            editFeats: editFeats,
-            wizStep: wizStep,
-            editIdx: editIdx
-          }));
+          localStorage.setItem('presale_draft', JSON.stringify(d));
         } catch (e) {}
+        setDraftCard(d);
       }
       setView('list');
     },
@@ -5732,10 +5889,10 @@ function App() {
       gap: 20,
       flexWrap: "wrap"
     }
-  }, [["Groups", groups.length], ["Total Units", totalUnits], ["Date", proj.date || "—"], ["Revision", proj.rev]].map(function (_ref12) {
-    var _ref13 = _slicedToArray(_ref12, 2),
-      l = _ref13[0],
-      v = _ref13[1];
+  }, [["Groups", groups.length], ["Total Units", totalUnits], ["Date", proj.date || "—"], ["Revision", proj.rev]].map(function (_ref14) {
+    var _ref15 = _slicedToArray(_ref14, 2),
+      l = _ref15[0],
+      v = _ref15[1];
     return /*#__PURE__*/React.createElement("div", {
       key: l
     }, /*#__PURE__*/React.createElement("div", {
