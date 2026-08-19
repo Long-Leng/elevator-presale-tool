@@ -1873,7 +1873,7 @@ function _callGemini() {
   return _callGemini.apply(this, arguments);
 }
 function App() {
-  var _ec$lan, _ec$btn, _ec$piv;
+  var _previewGroup$spec, _previewGroup$spec2, _previewGroup$spec3, _previewGroup$spec4, _previewGroup$spec5, _previewGroup$spec6, _ec$lan, _ec$btn, _ec$piv;
   var _useState3 = useState('list'),
     _useState4 = _slicedToArray(_useState3, 2),
     view = _useState4[0],
@@ -1922,42 +1922,46 @@ function App() {
     _useState24 = _slicedToArray(_useState23, 2),
     draftCard = _useState24[0],
     setDraftCard = _useState24[1];
-  var _useState25 = useState(''),
+  var _useState25 = useState(null),
     _useState26 = _slicedToArray(_useState25, 2),
-    saveMsg = _useState26[0],
-    setSaveMsg = _useState26[1];
-  var _useState27 = useState({}),
+    previewGroup = _useState26[0],
+    setPreviewGroup = _useState26[1];
+  var _useState27 = useState(''),
     _useState28 = _slicedToArray(_useState27, 2),
-    expanded = _useState28[0],
-    setExpanded = _useState28[1];
+    saveMsg = _useState28[0],
+    setSaveMsg = _useState28[1];
   var _useState29 = useState({}),
     _useState30 = _slicedToArray(_useState29, 2),
-    errors = _useState30[0],
-    setErrors = _useState30[1];
-  var _useState31 = useState(null),
+    expanded = _useState30[0],
+    setExpanded = _useState30[1];
+  var _useState31 = useState({}),
     _useState32 = _slicedToArray(_useState31, 2),
-    xlsUrl = _useState32[0],
-    setXlsUrl = _useState32[1];
-  var _useState33 = useState(''),
+    errors = _useState32[0],
+    setErrors = _useState32[1];
+  var _useState33 = useState(null),
     _useState34 = _slicedToArray(_useState33, 2),
-    xlsName = _useState34[0],
-    setXlsName = _useState34[1];
-  var _useState35 = useState(false),
+    xlsUrl = _useState34[0],
+    setXlsUrl = _useState34[1];
+  var _useState35 = useState(''),
     _useState36 = _slicedToArray(_useState35, 2),
-    uploading = _useState36[0],
-    setUploading = _useState36[1];
-  var _useState37 = useState(null),
+    xlsName = _useState36[0],
+    setXlsName = _useState36[1];
+  var _useState37 = useState(false),
     _useState38 = _slicedToArray(_useState37, 2),
-    uploadError = _useState38[0],
-    setUploadError = _useState38[1];
-  var _useState39 = useState(false),
+    uploading = _useState38[0],
+    setUploading = _useState38[1];
+  var _useState39 = useState(null),
     _useState40 = _slicedToArray(_useState39, 2),
-    showKeyModal = _useState40[0],
-    setShowKeyModal = _useState40[1];
-  var _useState41 = useState(''),
+    uploadError = _useState40[0],
+    setUploadError = _useState40[1];
+  var _useState41 = useState(false),
     _useState42 = _slicedToArray(_useState41, 2),
-    geminiKeyInput = _useState42[0],
-    setGeminiKeyInput = _useState42[1];
+    showKeyModal = _useState42[0],
+    setShowKeyModal = _useState42[1];
+  var _useState43 = useState(''),
+    _useState44 = _slicedToArray(_useState43, 2),
+    geminiKeyInput = _useState44[0],
+    setGeminiKeyInput = _useState44[1];
   var fileRef = useRef(null);
   var importRef = useRef(null);
   var exportJSON = function exportJSON() {
@@ -2767,7 +2771,149 @@ function App() {
       fontSize: 13,
       fontFamily: "inherit"
     }
-  }, "Delete & Start New")))), view !== 'edit' && /*#__PURE__*/React.createElement("div", {
+  }, "Delete & Start New")))), previewGroup && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.5)",
+      zIndex: 200,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#fff",
+      borderRadius: 12,
+      width: "100%",
+      maxWidth: 640,
+      maxHeight: "90vh",
+      overflow: "auto"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "10px 16px",
+      background: NAV,
+      color: "#fff",
+      borderRadius: "12px 12px 0 0",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between"
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 500
+    }
+  }, ((_previewGroup$spec = previewGroup.spec) === null || _previewGroup$spec === void 0 ? void 0 : _previewGroup$spec.elevNo) || "Group", " \u2014 ", ((_previewGroup$spec2 = previewGroup.spec) === null || _previewGroup$spec2 === void 0 ? void 0 : _previewGroup$spec2.product) || "", " ", ((_previewGroup$spec3 = previewGroup.spec) === null || _previewGroup$spec3 === void 0 ? void 0 : _previewGroup$spec3.code) || ""), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "rgba(255,255,255,0.7)"
+    }
+  }, ((_previewGroup$spec4 = previewGroup.spec) === null || _previewGroup$spec4 === void 0 ? void 0 : _previewGroup$spec4.source) || "", " \xB7 ", ((_previewGroup$spec5 = previewGroup.spec) === null || _previewGroup$spec5 === void 0 ? void 0 : _previewGroup$spec5.speed) || "", " m/s \xB7 ", ((_previewGroup$spec6 = previewGroup.spec) === null || _previewGroup$spec6 === void 0 ? void 0 : _previewGroup$spec6.kg) || "", " kg")), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setPreviewGroup(null);
+    },
+    style: {
+      background: "transparent",
+      border: "none",
+      color: "#fff",
+      fontSize: 18,
+      cursor: "pointer"
+    }
+  }, "\u2715")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#fff",
+      borderRadius: "0 0 12px 12px",
+      overflow: "hidden"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "40px 1fr 50px",
+      padding: "5px 12px",
+      background: "#f8fafc",
+      borderBottom: "0.5px solid #e2e8f0"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 500,
+      color: "#94a3b8",
+      textAlign: "center"
+    }
+  }, "#"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 500,
+      color: "#475569"
+    }
+  }, "Description"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 500,
+      color: "#94a3b8",
+      textAlign: "center"
+    }
+  }, "Qty")), buildGroupRows(previewGroup).map(function (r, ri) {
+    return r.type === 'hdr' ? /*#__PURE__*/React.createElement("div", {
+      key: ri,
+      style: {
+        padding: "5px 12px",
+        background: ["Features & Options", "Standard Features", "Optional Features"].includes(r.title) ? "#fff7ed" : "#eef2f7",
+        fontSize: 11,
+        fontWeight: 600,
+        color: ["Features & Options", "Standard Features", "Optional Features"].includes(r.title) ? AMBERD : NAV,
+        borderTop: "0.5px solid #e2e8f0"
+      }
+    }, r.title) : /*#__PURE__*/React.createElement("div", {
+      key: ri,
+      style: {
+        display: "grid",
+        gridTemplateColumns: "40px 1fr 50px",
+        padding: "5px 12px",
+        borderTop: "0.5px solid #f1f5f9",
+        background: ri % 2 === 0 ? "#fff" : "#fafafa"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        color: BLUE,
+        fontWeight: 500,
+        textAlign: "center"
+      }
+    }, r.no), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 12
+      }
+    }, r.desc), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        color: "#94a3b8",
+        textAlign: "center"
+      }
+    }, r.qty > 1 ? r.qty : ""));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "10px 16px",
+      textAlign: "center",
+      borderTop: "0.5px solid #e2e8f0"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setPreviewGroup(null);
+    },
+    style: {
+      padding: "7px 24px",
+      borderRadius: 7,
+      border: "0.5px solid #cbd5e1",
+      background: "#fff",
+      cursor: "pointer",
+      fontSize: 13,
+      fontFamily: "inherit"
+    }
+  }, "\u2190 Close")))), view !== 'edit' && /*#__PURE__*/React.createElement("div", {
     className: "no-print",
     style: {
       position: "sticky",
@@ -3362,18 +3508,19 @@ function App() {
         display: "flex",
         gap: 6
       }
-    }, ["Edit", "Copy", "Delete"].map(function (a) {
+    }, ["Edit", "Copy", "Preview", "Delete"].map(function (a) {
       return /*#__PURE__*/React.createElement("button", {
         key: a,
         onClick: function onClick() {
-          return a === 'Edit' ? openEdit(i) : a === 'Copy' ? copyGroup(i) : deleteGroup(i);
+          return a === 'Edit' ? openEdit(i) : a === 'Copy' ? copyGroup(i) : a === 'Preview' ? setPreviewGroup(groups[i]) : deleteGroup(i);
         },
         style: {
           padding: "5px 10px",
           borderRadius: 6,
           border: "0.5px solid var(--color-border-secondary)",
           background: "var(--color-background-primary)",
-          color: a === 'Delete' ? "var(--color-text-danger)" : "var(--color-text-primary)",
+          color: a === 'Delete' ? "var(--color-text-danger)" : a === 'Preview' ? AMBER : "var(--color-text-primary)",
+          fontWeight: a === 'Preview' ? 500 : 400,
           fontSize: 11,
           cursor: "pointer",
           fontFamily: "inherit"
