@@ -2368,7 +2368,7 @@ function App() {
     var errs = {};
     if (!editSpec.source) errs.source = 'required';
     if (!editSpec.product) errs.product = 'required';
-    if (!isEsc && !editSpec.code) errs.code = 'required';
+    if (!isEsc && !isMW && !editSpec.code) errs.code = 'required';
     if (Object.keys(errs).length) {
       setErrors(errs);
       return;
@@ -3507,7 +3507,11 @@ function App() {
       fontWeight: 500,
       color: AMBERD
     }
-  }, draftCard.editSpec.elevNo ? "Lift ".concat(draftCard.editSpec.elevNo) : "", draftCard.editSpec.elevNo && draftCard.editSpec.product ? " — " : "", draftCard.editSpec.product || "New Lift", draftCard.editSpec.code ? " / ".concat(draftCard.editSpec.code) : ""), /*#__PURE__*/React.createElement("span", {
+  }, function () {
+    var s = draftCard.editSpec;
+    var prefix = s.product === 'Moving Walk' ? 'MW' : s.source === 'SMEC' ? 'ESC' : 'Lift';
+    return "".concat(s.elevNo ? prefix + ' ' + s.elevNo : '').concat(s.elevNo && s.product ? ' — ' : '').concat(s.product || 'New Group').concat(s.code ? ' / ' + s.code : '');
+  }()), /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 9.5,
       background: "#fde68a",
@@ -3531,7 +3535,7 @@ function App() {
   }, function () {
     var isE = draftCard.editSpec.source === 'SMEC';
     var isF = draftCard.editSpec.liftType === 'Freight';
-    var steps = isE ? ["Technical Spec", "Appearance", "Features", "Local Scope"] : isF ? ["Source & Product", "Performance", "Car Design & COP", "Entrance & Features", "Local Scope"] : ["Source & Product", "Performance", "Car Design & COP", "Entrance & Features", "Local Scope"];
+    var steps = isMWd ? ["Technical Spec", "Appearance", "Features"] : isE ? ["Technical Spec", "Appearance", "Features"] : isF ? ["Source & Product", "Performance", "Car Design & COP", "Entrance & Features", "Local Scope"] : ["Source & Product", "Performance", "Car Design & COP", "Entrance & Features", "Local Scope"];
     var s = draftCard.wizStep || 1;
     return "Step ".concat(s, "/").concat(steps.length, " \u2014 ").concat(steps[s - 1] || "", " (\u0E04\u0E49\u0E32\u0E07\u0E2D\u0E22\u0E39\u0E48)");
   }()), /*#__PURE__*/React.createElement("div", {
@@ -3599,7 +3603,7 @@ function App() {
       gridTemplateColumns: "repeat(3,1fr)",
       gap: 8
     }
-  }, [["Elevator No.", draftCard.editSpec.elevNo || "—"], ["Product", draftCard.editSpec.product || "—"], ["Code", draftCard.editSpec.code || "—"], ["Speed", draftCard.editSpec.speed ? draftCard.editSpec.speed + " m/s" : "—"], ["Capacity", draftCard.editSpec.kg ? draftCard.editSpec.kg + " kg" : "—"], ["Door Type", draftCard.editSpec.doorType || "—"]].map(function (_ref10) {
+  }, [[draftCard.editSpec.product === 'Moving Walk' ? 'Moving Walk No.' : draftCard.editSpec.source === 'SMEC' ? 'Escalator No.' : 'Elevator No.', draftCard.editSpec.elevNo || "—"], ["Product", draftCard.editSpec.product || "—"], ["Code", draftCard.editSpec.code || "—"], ["Speed", draftCard.editSpec.speed ? draftCard.editSpec.speed + " m/s" : "—"], ["Capacity", draftCard.editSpec.kg ? draftCard.editSpec.kg + " kg" : "—"], ["Door Type", draftCard.editSpec.doorType || "—"]].map(function (_ref10) {
     var _ref11 = _slicedToArray(_ref10, 2),
       l = _ref11[0],
       v = _ref11[1];
@@ -3672,7 +3676,11 @@ function App() {
         alignItems: "center",
         gap: 6
       }
-    }, isMWCard ? "Moving Walk" : isE ? "Escalator" : "Lift Group", " ", i + 1, s.elevNo && " \u2014 ".concat(s.elevNo), s._aiSource && /*#__PURE__*/React.createElement("span", {
+    }, function () {
+      var prefix = isMWCard ? "Moving Walk" : isE ? "Escalator" : "Lift Group";
+      var noLabel = isMWCard ? "MW No." : isE ? "ESC No." : "";
+      return "".concat(prefix, " ").concat(i + 1).concat(s.elevNo ? " — " + (noLabel ? noLabel + " " : "") + s.elevNo : "");
+    }(), s._aiSource && /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 9.5,
         background: "#e8f1fb",
