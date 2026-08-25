@@ -833,6 +833,7 @@ var SOURCE_PRODUCTS = {
   MESE: ["NEXIEZ-MRL", "NEXWAY-S", "NEXWAY"],
   SMEC_LIFT: ["LEHY-G", "LEHY-L-G"],
   SMEC_ESC: ["Escalator K2S3"],
+  SMEC_MW: ["Moving Walk"],
   Other: []
 };
 var uid = function uid() {
@@ -1108,9 +1109,14 @@ var INIT_MW = {
   mwEnvironment: "Indoor",
   mwTravel: "",
   mwRise: "",
-  mwSeriesModel: "CS-B/CS-BF",
+  mwSeriesModel: "CS-BF",
   mwOpIndicator: "ZIN-01",
   mwOpIndicatorRemark: "",
+  mwPalletType: "Aluminum alloy black gray with yellow resin stripes 3 side",
+  mwHandrailColor: "NT-Black",
+  mwSkirt: "SUS-H",
+  mwComb: "Yellow aluminum alloy",
+  mwFloorPlate: "ZCY-F134P",
   mwStepLighting: "No",
   mwSkirtLighting: "No",
   mwFloorName: "No",
@@ -1200,6 +1206,11 @@ function buildGroupRows(group) {
     if (s2.mwSeriesModel) item("Series model: ".concat(s2.mwSeriesModel));
     if (s2.mwSpecRemark) item("Remark: ".concat(s2.mwSpecRemark));
     hdr('Appearance and Design');
+    if (s2.mwPalletType) item("Pallet type: ".concat(s2.mwPalletType));
+    if (s2.mwHandrailColor) item("Handrail color: ".concat(s2.mwHandrailColor));
+    if (s2.mwSkirt) item("Skirt: ".concat(s2.mwSkirt));
+    if (s2.mwComb) item("Comb: ".concat(s2.mwComb));
+    if (s2.mwFloorPlate) item("Floor plate: ".concat(s2.mwFloorPlate));
     if (s2.mwStepLighting === 'Yes') item('Step/Pallet lighting');
     if (s2.mwSkirtLighting === 'Yes') item('Skirt lighting');
     item("Safety brush: ".concat(s2.mwSafetyBrush || 'Black'));
@@ -3896,7 +3907,7 @@ function App() {
     v: editSpec.elevNo,
     on: setS('elevNo'),
     ph: "e.g. D-PL-01, D-PL-02"
-  })), /*#__PURE__*/React.createElement(F, {
+  })), editSpec.source !== "SMEC" && /*#__PURE__*/React.createElement(F, {
     label: "Lift Type",
     half: true
   }, /*#__PURE__*/React.createElement("select", {
@@ -3958,7 +3969,7 @@ function App() {
     })
   }, /*#__PURE__*/React.createElement("option", {
     value: ""
-  }, "\u2014 select product \u2014"), ((editSpec.source === "SMEC" ? openType === "escalator" ? SOURCE_PRODUCTS.SMEC_ESC : SOURCE_PRODUCTS.SMEC_LIFT : SOURCE_PRODUCTS[editSpec.source]) || []).map(function (p) {
+  }, "\u2014 select product \u2014"), ((editSpec.source === "SMEC" ? openType === "escalator" ? SOURCE_PRODUCTS.SMEC_ESC : openType === "movingwalk" ? SOURCE_PRODUCTS.SMEC_MW : SOURCE_PRODUCTS.SMEC_LIFT : SOURCE_PRODUCTS[editSpec.source]) || []).map(function (p) {
     return /*#__PURE__*/React.createElement("option", {
       key: p
     }, p);
@@ -4959,11 +4970,38 @@ function App() {
     style: _objectSpread(_objectSpread({}, bInp), {}, {
       resize: "vertical"
     })
-  })))))), isMW && /*#__PURE__*/React.createElement(React.Fragment, null, wizStep === 1 && /*#__PURE__*/React.createElement(Sec, {
+  })))))), isMW && /*#__PURE__*/React.createElement(React.Fragment, null, wizStep === 1 && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Sec, {
+    icon: "\uD83C\uDFD7\uFE0F",
+    title: "Source & Product"
+  }, /*#__PURE__*/React.createElement(F, {
+    label: "Source Factory",
+    half: true
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "7px 10px",
+      background: "var(--color-background-secondary)",
+      borderRadius: 7,
+      fontSize: 12.5,
+      color: NAV,
+      fontWeight: 500
+    }
+  }, "SMEC")), /*#__PURE__*/React.createElement(F, {
+    label: "Product",
+    half: true
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "7px 10px",
+      background: "var(--color-background-secondary)",
+      borderRadius: 7,
+      fontSize: 12.5,
+      color: NAV,
+      fontWeight: 500
+    }
+  }, "Moving Walk"))), /*#__PURE__*/React.createElement(Sec, {
     icon: "\u2699\uFE0F",
     title: "Technical Specification"
   }, /*#__PURE__*/React.createElement(F, {
-    label: isMW ? "Moving Walk No." : "Escalator No."
+    label: "Moving Walk No."
   }, /*#__PURE__*/React.createElement(Inp, {
     v: editSpec.elevNo,
     on: setS('elevNo'),
@@ -5125,7 +5163,7 @@ function App() {
     style: _objectSpread(_objectSpread({}, bInp), {}, {
       cursor: "pointer"
     })
-  }, /*#__PURE__*/React.createElement("option", null, "CS-SB/CS-SBF"), /*#__PURE__*/React.createElement("option", null, "CS-B/CS-BF"), /*#__PURE__*/React.createElement("option", null, "CS-LB/CS-LBF"), /*#__PURE__*/React.createElement("option", null, "CP-B/CP-BF"))), /*#__PURE__*/React.createElement(F, {
+  }, /*#__PURE__*/React.createElement("option", null, "CS-SBF"), /*#__PURE__*/React.createElement("option", null, "CS-BF"), /*#__PURE__*/React.createElement("option", null, "CS-LBF"), /*#__PURE__*/React.createElement("option", null, "CP-BF"))), /*#__PURE__*/React.createElement(F, {
     label: "Applicable Standard"
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -5147,10 +5185,74 @@ function App() {
     style: _objectSpread(_objectSpread({}, bInp), {}, {
       resize: "vertical"
     })
-  }))), wizStep === 2 && /*#__PURE__*/React.createElement(Sec, {
+  })))), wizStep === 2 && /*#__PURE__*/React.createElement(Sec, {
     icon: "\u2728",
     title: "Appearance and Design"
   }, /*#__PURE__*/React.createElement(F, {
+    label: "Pallet Type",
+    half: true
+  }, /*#__PURE__*/React.createElement(Sel, {
+    v: editSpec.mwPalletType || "Aluminum alloy black gray with yellow resin stripes 3 side",
+    on: setS('mwPalletType'),
+    opts: ["Aluminum alloy black gray with yellow resin stripes 3 side", "Aluminum alloy silver gray with yellow resin stripes 3 side", "All aluminum alloy black gray", "All aluminum alloy silver gray"]
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "Handrail Color",
+    half: true
+  }, /*#__PURE__*/React.createElement(Sel, {
+    v: editSpec.mwHandrailColor || "NT-Black",
+    on: setS('mwHandrailColor'),
+    opts: ["NT-Black", "NT-Red", "NT-Beige", "NT-Blue", "NT-Gray", "NT-Charcoal", "NT-Brown", "NT-Green"]
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "Skirt",
+    half: true
+  }, /*#__PURE__*/React.createElement(Sel, {
+    v: editSpec.mwSkirt || "SUS-H",
+    on: setS('mwSkirt'),
+    opts: ["SUS-H", "Fluoridized SUS(black)"]
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "Comb",
+    half: true
+  }, /*#__PURE__*/React.createElement(Sel, {
+    v: editSpec.mwComb || "Yellow aluminum alloy",
+    on: setS('mwComb'),
+    opts: ["Yellow aluminum alloy", "Silver aluminum alloy"]
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "Floor Plate",
+    half: true
+  }, /*#__PURE__*/React.createElement(Sel, {
+    v: editSpec.mwFloorPlate || "ZCY-F134P",
+    on: setS('mwFloorPlate'),
+    opts: ["ZCY-F134P", "ZCY-F21P", "ZCY-F12P", "ZCY-F02P"]
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "Operation Indicator",
+    half: true
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 4
+    }
+  }, /*#__PURE__*/React.createElement("select", {
+    value: editSpec.mwOpIndicator || "ZIN-01",
+    onChange: function onChange(e) {
+      return setS('mwOpIndicator')(e.target.value);
+    },
+    style: _objectSpread(_objectSpread({}, bInp), {}, {
+      cursor: "pointer"
+    })
+  }, ["ZIN-01", "ZIN-02", "ZIN-03", "ZIN-05", "remark"].map(function (o) {
+    return /*#__PURE__*/React.createElement("option", {
+      key: o
+    }, o);
+  })), editSpec.mwOpIndicator === "remark" && /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    value: editSpec.mwOpIndicatorRemark || "",
+    onChange: function onChange(e) {
+      return setS('mwOpIndicatorRemark')(e.target.value);
+    },
+    placeholder: "Specify...",
+    style: bInp
+  }))), /*#__PURE__*/React.createElement(F, {
     label: "Step/Pallet Lighting",
     half: true
   }, /*#__PURE__*/React.createElement(Sel, {
@@ -5179,35 +5281,6 @@ function App() {
     on: setS('mwFloorName'),
     opts: ["No", "Yes"]
   })), /*#__PURE__*/React.createElement(F, {
-    label: "Operation Indicator",
-    half: true
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 4
-    }
-  }, /*#__PURE__*/React.createElement("select", {
-    value: editSpec.mwOpIndicator || "ZIN-01",
-    onChange: function onChange(e) {
-      return setS('mwOpIndicator')(e.target.value);
-    },
-    style: _objectSpread(_objectSpread({}, bInp), {}, {
-      cursor: "pointer"
-    })
-  }, ["ZIN-01", "ZIN-02", "ZIN-03", "ZIN-04", "remark"].map(function (o) {
-    return /*#__PURE__*/React.createElement("option", {
-      key: o
-    }, o);
-  })), editSpec.mwOpIndicator === "remark" && /*#__PURE__*/React.createElement("input", {
-    type: "text",
-    value: editSpec.mwOpIndicatorRemark || "",
-    onChange: function onChange(e) {
-      return setS('mwOpIndicatorRemark')(e.target.value);
-    },
-    placeholder: "Specify...",
-    style: bInp
-  }))), /*#__PURE__*/React.createElement(F, {
     label: "Remark"
   }, /*#__PURE__*/React.createElement("textarea", {
     value: editSpec.mwAppRemark || "",
