@@ -1093,6 +1093,42 @@ var INIT_ESC = {
   escFeatRemark: "",
   tseRemarks: ""
 };
+var INIT_MW = {
+  elevNo: "",
+  source: "SMEC",
+  product: "Moving Walk",
+  mwQty: "1",
+  mwType: "Horizontal",
+  mwPalletWidth: "1200",
+  mwHandrailWidth: "1400",
+  mwSpeed: "0.5",
+  mwHandrailHeight: "910",
+  mwAngle: "0°~6°",
+  mwAngleRemark: "",
+  mwEnvironment: "Indoor",
+  mwTravel: "",
+  mwRise: "",
+  mwSeriesModel: "CS-B/CS-BF",
+  mwOpIndicator: "ZIN-01",
+  mwOpIndicatorRemark: "",
+  mwStepLighting: "No",
+  mwSkirtLighting: "No",
+  mwFloorName: "No",
+  mwSafetyBrush: "Black",
+  mwSpecRemark: "",
+  mwAppRemark: "",
+  tseRemarks: ""
+};
+var INIT_MW_FEATS = {
+  mwSMS: true,
+  mwSSS: true,
+  mwCRS: true,
+  mwHSS: true,
+  mwSRS: true,
+  mwHGS: true,
+  mwBA: false,
+  mwSmartEye: false
+};
 var INIT_ESC_FEATS = {
   escSMS: true,
   escSSS: true,
@@ -1148,6 +1184,42 @@ function buildGroupRows(group) {
       isLocal: true
     });
   };
+  if (type === 'movingwalk') {
+    var s2 = spec;
+    hdr('Technical Specification');
+    item(["SMEC", "Moving Walk", s2.mwType && "Type: ".concat(s2.mwType), s2.mwQty && "Qty: ".concat(s2.mwQty)].filter(Boolean).join(' | '), Number(s2.mwQty) || 1);
+    item("Applicable Standard: EN115-1:2017 | Reducer: Worm");
+    if (s2.mwPalletWidth) item("Pallet width: ".concat(s2.mwPalletWidth, " mm"));
+    if (s2.mwHandrailWidth) item("Handrail width: ".concat(s2.mwHandrailWidth, " mm"));
+    if (s2.mwSpeed) item("Speed: ".concat(s2.mwSpeed, " m/s"));
+    if (s2.mwHandrailHeight) item("Handrail height: ".concat(s2.mwHandrailHeight, " mm"));
+    item("Angle: ".concat(s2.mwAngle === 'remark' ? s2.mwAngleRemark : s2.mwAngle || '—'));
+    if (s2.mwEnvironment) item("Environment: ".concat(s2.mwEnvironment));
+    if (s2.mwType === 'Inclined' && s2.mwRise) item("Travel rise: ".concat(s2.mwRise, " m"));
+    if (s2.mwType === 'Horizontal' && s2.mwTravel) item("Travel: ".concat(s2.mwTravel, " m"));
+    if (s2.mwSeriesModel) item("Series model: ".concat(s2.mwSeriesModel));
+    if (s2.mwSpecRemark) item("Remark: ".concat(s2.mwSpecRemark));
+    hdr('Appearance and Design');
+    if (s2.mwStepLighting === 'Yes') item('Step/Pallet lighting');
+    if (s2.mwSkirtLighting === 'Yes') item('Skirt lighting');
+    item("Safety brush: ".concat(s2.mwSafetyBrush || 'Black'));
+    if (s2.mwFloorName === 'Yes') item('Floor name');
+    item("Operation Indicator: ".concat(s2.mwOpIndicator === 'remark' ? s2.mwOpIndicatorRemark : s2.mwOpIndicator || 'ZIN-01'));
+    if (s2.mwAppRemark) item("Remark: ".concat(s2.mwAppRemark));
+    hdr('Standard Features');
+    item('SMS — Missing Step/Pallet Device');
+    item('SSS — Skirt Guard Safety Device');
+    item('CRS — Step/Pallet Motion Safety');
+    item('HSS — Handrail Speed Safety Device');
+    item('SRS — Step/Pallet Level Device');
+    item('HGS — Handrail Guard Safety Device');
+    if (feats.mwBA || feats.mwSmartEye) {
+      hdr('Optional Features');
+      if (feats.mwBA) item('BA — Brake Assist');
+      if (feats.mwSmartEye) item('SmartEye — Smart Eye Detection');
+    }
+    return rows;
+  }
   if (type === 'escalator') {
     scope('Factory Scope', false);
     hdr('Technical Specification');
@@ -1926,42 +1998,46 @@ function App() {
     _useState26 = _slicedToArray(_useState25, 2),
     previewGroup = _useState26[0],
     setPreviewGroup = _useState26[1];
-  var _useState27 = useState(''),
+  var _useState27 = useState(false),
     _useState28 = _slicedToArray(_useState27, 2),
-    saveMsg = _useState28[0],
-    setSaveMsg = _useState28[1];
-  var _useState29 = useState({}),
+    showEscModal = _useState28[0],
+    setShowEscModal = _useState28[1];
+  var _useState29 = useState(''),
     _useState30 = _slicedToArray(_useState29, 2),
-    expanded = _useState30[0],
-    setExpanded = _useState30[1];
+    saveMsg = _useState30[0],
+    setSaveMsg = _useState30[1];
   var _useState31 = useState({}),
     _useState32 = _slicedToArray(_useState31, 2),
-    errors = _useState32[0],
-    setErrors = _useState32[1];
-  var _useState33 = useState(null),
+    expanded = _useState32[0],
+    setExpanded = _useState32[1];
+  var _useState33 = useState({}),
     _useState34 = _slicedToArray(_useState33, 2),
-    xlsUrl = _useState34[0],
-    setXlsUrl = _useState34[1];
-  var _useState35 = useState(''),
+    errors = _useState34[0],
+    setErrors = _useState34[1];
+  var _useState35 = useState(null),
     _useState36 = _slicedToArray(_useState35, 2),
-    xlsName = _useState36[0],
-    setXlsName = _useState36[1];
-  var _useState37 = useState(false),
+    xlsUrl = _useState36[0],
+    setXlsUrl = _useState36[1];
+  var _useState37 = useState(''),
     _useState38 = _slicedToArray(_useState37, 2),
-    uploading = _useState38[0],
-    setUploading = _useState38[1];
-  var _useState39 = useState(null),
+    xlsName = _useState38[0],
+    setXlsName = _useState38[1];
+  var _useState39 = useState(false),
     _useState40 = _slicedToArray(_useState39, 2),
-    uploadError = _useState40[0],
-    setUploadError = _useState40[1];
-  var _useState41 = useState(false),
+    uploading = _useState40[0],
+    setUploading = _useState40[1];
+  var _useState41 = useState(null),
     _useState42 = _slicedToArray(_useState41, 2),
-    showKeyModal = _useState42[0],
-    setShowKeyModal = _useState42[1];
-  var _useState43 = useState(''),
+    uploadError = _useState42[0],
+    setUploadError = _useState42[1];
+  var _useState43 = useState(false),
     _useState44 = _slicedToArray(_useState43, 2),
-    geminiKeyInput = _useState44[0],
-    setGeminiKeyInput = _useState44[1];
+    showKeyModal = _useState44[0],
+    setShowKeyModal = _useState44[1];
+  var _useState45 = useState(''),
+    _useState46 = _slicedToArray(_useState45, 2),
+    geminiKeyInput = _useState46[0],
+    setGeminiKeyInput = _useState46[1];
   var fileRef = useRef(null);
   var importRef = useRef(null);
   var exportJSON = function exportJSON() {
@@ -2241,8 +2317,8 @@ function App() {
   var _openNew = function _openNew(type) {
     setOpenType(type);
     setEditIdx(null);
-    setEditSpec(type === 'escalator' ? _objectSpread({}, INIT_ESC) : _objectSpread({}, INIT_LIFT));
-    setEditFeats(type === 'escalator' ? _objectSpread({}, INIT_ESC_FEATS) : type === 'freight' ? _objectSpread({}, INIT_FREIGHT_FEATS) : _objectSpread({}, INIT_LIFT_FEATS));
+    setEditSpec(type === 'escalator' ? _objectSpread({}, INIT_ESC) : type === 'movingwalk' ? _objectSpread({}, INIT_MW) : _objectSpread({}, INIT_LIFT));
+    setEditFeats(type === 'escalator' ? _objectSpread({}, INIT_ESC_FEATS) : type === 'movingwalk' ? _objectSpread({}, INIT_MW_FEATS) : type === 'freight' ? _objectSpread({}, INIT_FREIGHT_FEATS) : _objectSpread({}, INIT_LIFT_FEATS));
     setWizStep(1);
     setErrors({});
     setView('edit');
@@ -2288,7 +2364,7 @@ function App() {
     }
     var g = {
       id: editIdx !== null ? groups[editIdx].id : uid(),
-      type: isEsc ? 'escalator' : 'lift',
+      type: isEsc ? 'escalator' : isMW ? 'movingwalk' : 'lift',
       spec: editSpec,
       feats: editFeats
     };
@@ -2594,6 +2670,8 @@ function App() {
 
   // ── DERIVED (for wizard) ─────────────────────────────────────────
   var isEsc = editSpec && editSpec.source === 'SMEC' && editSpec.product === 'Escalator K2S3';
+  var isMW = editSpec && editSpec.source === 'SMEC' && editSpec.product === 'Moving Walk';
+  var isSMEC = isEsc || isMW;
   var isFreight = editSpec && ['LEHY-G', 'LEHY-L-G'].includes(editSpec.product);
   var catEntry = editSpec && CAT[editSpec.product];
   var codes = catEntry ? Object.keys(catEntry.codes) : [];
@@ -2669,7 +2747,7 @@ function App() {
   };
   var LIFT_STEPS = ["Source & Product", "Performance", "Car Design & COP", "Entrance & Features", "Local Scope"];
   var ESC_STEPS = ["Technical Spec", "Appearance", "Features", "Local Scope"];
-  var steps = isEsc ? ESC_STEPS : isFreight ? FREIGHT_STEPS : LIFT_STEPS;
+  var steps = isEsc ? ESC_STEPS : isMW ? ["Technical Spec", "Appearance", "Features"] : isFreight ? FREIGHT_STEPS : LIFT_STEPS;
   var totalSteps = steps.length;
 
   // ── RENDER ───────────────────────────────────────────────────────
@@ -2913,7 +2991,109 @@ function App() {
       fontSize: 13,
       fontFamily: "inherit"
     }
-  }, "\u2190 Close")))), view !== 'edit' && /*#__PURE__*/React.createElement("div", {
+  }, "\u2190 Close")))), showEscModal && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.5)",
+      zIndex: 300,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 20
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#fff",
+      borderRadius: 12,
+      padding: 24,
+      maxWidth: 360,
+      width: "100%"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 500,
+      marginBottom: 6,
+      color: AMBERD
+    }
+  }, "Select Type"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12.5,
+      color: "var(--color-text-secondary)",
+      marginBottom: 18
+    }
+  }, "SMEC \u2014 Choose equipment type"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      setShowEscModal(false);
+      openNew('escalator');
+    },
+    style: {
+      padding: "12px 16px",
+      borderRadius: 8,
+      border: "1.5px solid ".concat(AMBER),
+      background: "#fff",
+      cursor: "pointer",
+      fontFamily: "inherit",
+      textAlign: "left"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 500,
+      color: AMBERD
+    }
+  }, "\uD83E\uDE9C Escalator K2S3"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "var(--color-text-muted)"
+    }
+  }, "KS-SBF II / KS-LBF II / KP-BF II")), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      setShowEscModal(false);
+      openNew('movingwalk');
+    },
+    style: {
+      padding: "12px 16px",
+      borderRadius: 8,
+      border: "1.5px solid ".concat(AMBER),
+      background: "#fff",
+      cursor: "pointer",
+      fontFamily: "inherit",
+      textAlign: "left"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 500,
+      color: AMBERD
+    }
+  }, "\uD83D\uDEB6 Moving Walk"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "var(--color-text-muted)"
+    }
+  }, "Horizontal / Inclined type")), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setShowEscModal(false);
+    },
+    style: {
+      padding: "8px",
+      borderRadius: 7,
+      border: "0.5px solid var(--color-border-secondary)",
+      background: "transparent",
+      cursor: "pointer",
+      fontFamily: "inherit",
+      fontSize: 12,
+      color: "var(--color-text-secondary)"
+    }
+  }, "Cancel")))), view !== 'edit' && /*#__PURE__*/React.createElement("div", {
     className: "no-print",
     style: {
       position: "sticky",
@@ -3192,7 +3372,7 @@ function App() {
     }
   }, "+ Add Lift Group"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
-      return openNew('escalator');
+      return setShowEscModal(true);
     },
     style: {
       flex: 1,
@@ -3207,7 +3387,7 @@ function App() {
       cursor: "pointer",
       fontFamily: "inherit"
     }
-  }, "+ Add Escalator"), /*#__PURE__*/React.createElement("button", {
+  }, "+ Add Escalator / Moving Walk"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       setGeminiKeyInput(localStorage.getItem('gemini_api_key') || '');
       setShowKeyModal(true);
@@ -3435,10 +3615,11 @@ function App() {
   }))), groups.map(function (g, i) {
     var s = g.spec;
     var isE = g.type === 'escalator';
+    var isMWCard = g.type === 'movingwalk';
     return /*#__PURE__*/React.createElement("div", {
       key: g.id,
       style: {
-        border: "0.5px solid ".concat(isE ? AMBER : "var(--color-border-secondary)"),
+        border: "0.5px solid ".concat(isE || isMWCard ? AMBER : "var(--color-border-secondary)"),
         borderRadius: 12,
         marginBottom: 10,
         overflow: "hidden",
@@ -3450,7 +3631,7 @@ function App() {
         alignItems: "center",
         gap: 10,
         padding: "10px 14px",
-        background: isE ? "#FEF9E7" : "var(--color-background-secondary)",
+        background: isE || isMWCard ? "#FEF9E7" : "var(--color-background-secondary)",
         borderBottom: "0.5px solid var(--color-border-tertiary)"
       }
     }, /*#__PURE__*/React.createElement("div", {
@@ -3458,8 +3639,8 @@ function App() {
         width: 28,
         height: 28,
         borderRadius: 7,
-        background: isE ? AMBER : NAV,
-        color: "#fff",
+        background: isE || isMWCard ? AMBER : NAV,
+        color: isE || isMWCard ? NAV : "#fff",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -3480,7 +3661,7 @@ function App() {
         alignItems: "center",
         gap: 6
       }
-    }, isE ? "Escalator" : "Lift Group", " ", i + 1, s.elevNo && " \u2014 ".concat(s.elevNo), s._aiSource && /*#__PURE__*/React.createElement("span", {
+    }, isMWCard ? "Moving Walk" : isE ? "Escalator" : "Lift Group", " ", i + 1, s.elevNo && " \u2014 ".concat(s.elevNo), s._aiSource && /*#__PURE__*/React.createElement("span", {
       style: {
         fontSize: 9.5,
         background: "#e8f1fb",
@@ -3533,7 +3714,27 @@ function App() {
         gridTemplateColumns: "repeat(3,1fr)",
         gap: 8
       }
-    }, isE ? /*#__PURE__*/React.createElement("div", {
+    }, isMWCard ? /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: 6
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12.5,
+        fontWeight: 500,
+        color: AMBERD
+      }
+    }, s.mwType, " \u2014 Pallet ", s.mwPalletWidth || "—", " mm / Handrail ", s.mwHandrailWidth || "—", " mm"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: "var(--color-text-secondary)",
+        display: "flex",
+        gap: 16,
+        flexWrap: "wrap"
+      }
+    }, /*#__PURE__*/React.createElement("span", null, "\u26A1 ", s.mwSpeed || "—", " m/s"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCD0 ", s.mwAngle === 'remark' ? s.mwAngleRemark : s.mwAngle || "—"), /*#__PURE__*/React.createElement("span", null, "\uD83C\uDF0D ", s.mwEnvironment || "—"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCCF ", s.mwType === "Inclined" ? "Rise: " + (s.mwRise || "—") + " m" : "Travel: " + (s.mwTravel || "—") + " m"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCE6 ", s.mwQty || 1, " unit(s)"))) : isE ? /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         flexDirection: "column",
@@ -4758,15 +4959,360 @@ function App() {
     style: _objectSpread(_objectSpread({}, bInp), {}, {
       resize: "vertical"
     })
-  })))))), isEsc && /*#__PURE__*/React.createElement(React.Fragment, null, wizStep === 1 && /*#__PURE__*/React.createElement(Sec, {
+  })))))), isMW && /*#__PURE__*/React.createElement(React.Fragment, null, wizStep === 1 && /*#__PURE__*/React.createElement(Sec, {
     icon: "\u2699\uFE0F",
     title: "Technical Specification"
   }, /*#__PURE__*/React.createElement(F, {
-    label: "Elevator No."
+    label: isMW ? "Moving Walk No." : "Escalator No."
   }, /*#__PURE__*/React.createElement(Inp, {
     v: editSpec.elevNo,
     on: setS('elevNo'),
-    ph: "e.g. ESC-01, ESC-02"
+    ph: "e.g. MW-01"
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "Quantity",
+    half: true
+  }, /*#__PURE__*/React.createElement(Inp, {
+    type: "number",
+    v: editSpec.mwQty,
+    on: setS('mwQty'),
+    ph: "1"
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "Type",
+    half: true
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8
+    }
+  }, ["Horizontal", "Inclined"].map(function (t) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: t,
+      onClick: function onClick() {
+        return setEditSpec(function (s) {
+          return _objectSpread(_objectSpread({}, s), {}, {
+            mwType: t,
+            mwAngle: t === "Horizontal" ? "0°~6°" : "10°~12°",
+            mwPalletWidth: t === "Horizontal" ? "1200" : "800",
+            mwHandrailWidth: t === "Horizontal" ? "1400" : "1000"
+          });
+        });
+      },
+      style: {
+        flex: 1,
+        padding: "7px",
+        borderRadius: 7,
+        border: "1.5px solid ".concat(editSpec.mwType === t ? AMBER : "var(--color-border-secondary)"),
+        background: editSpec.mwType === t ? AMBER : "var(--color-background-primary)",
+        color: editSpec.mwType === t ? NAV : "var(--color-text-primary)",
+        fontSize: 12,
+        cursor: "pointer",
+        fontFamily: "inherit",
+        fontWeight: editSpec.mwType === t ? 500 : 400
+      }
+    }, t);
+  }))), /*#__PURE__*/React.createElement(F, {
+    label: "Pallet Width (mm)",
+    half: true
+  }, /*#__PURE__*/React.createElement("select", {
+    value: editSpec.mwPalletWidth || "1200",
+    onChange: function onChange(e) {
+      return setS('mwPalletWidth')(e.target.value);
+    },
+    style: _objectSpread(_objectSpread({}, bInp), {}, {
+      cursor: "pointer"
+    })
+  }, (editSpec.mwType === "Inclined" ? ["800", "1000"] : ["1000", "1200", "1400"]).map(function (o) {
+    return /*#__PURE__*/React.createElement("option", {
+      key: o
+    }, o);
+  }))), /*#__PURE__*/React.createElement(F, {
+    label: "Handrail Width (mm)",
+    half: true
+  }, /*#__PURE__*/React.createElement("select", {
+    value: editSpec.mwHandrailWidth || "1400",
+    onChange: function onChange(e) {
+      return setS('mwHandrailWidth')(e.target.value);
+    },
+    style: _objectSpread(_objectSpread({}, bInp), {}, {
+      cursor: "pointer"
+    })
+  }, (editSpec.mwType === "Inclined" ? ["1000", "1200"] : ["1200", "1400", "1600"]).map(function (o) {
+    return /*#__PURE__*/React.createElement("option", {
+      key: o
+    }, o);
+  }))), /*#__PURE__*/React.createElement(F, {
+    label: "Speed (m/s)",
+    half: true
+  }, /*#__PURE__*/React.createElement("select", {
+    value: editSpec.mwSpeed || "0.5",
+    onChange: function onChange(e) {
+      return setS('mwSpeed')(e.target.value);
+    },
+    style: _objectSpread(_objectSpread({}, bInp), {}, {
+      cursor: "pointer"
+    })
+  }, /*#__PURE__*/React.createElement("option", {
+    value: "0.5"
+  }, "0.5 (Standard)"), /*#__PURE__*/React.createElement("option", {
+    value: "0.65"
+  }, "0.65 (Optional)"))), /*#__PURE__*/React.createElement(F, {
+    label: "Handrail Height (mm)",
+    half: true
+  }, /*#__PURE__*/React.createElement("select", {
+    value: editSpec.mwHandrailHeight || "910",
+    onChange: function onChange(e) {
+      return setS('mwHandrailHeight')(e.target.value);
+    },
+    style: _objectSpread(_objectSpread({}, bInp), {}, {
+      cursor: "pointer"
+    })
+  }, /*#__PURE__*/React.createElement("option", {
+    value: "910"
+  }, "910 (Standard)"), /*#__PURE__*/React.createElement("option", {
+    value: "1000"
+  }, "1000 (Optional)"))), /*#__PURE__*/React.createElement(F, {
+    label: "Angle (\xB0)",
+    half: true
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 4
+    }
+  }, /*#__PURE__*/React.createElement("select", {
+    value: editSpec.mwAngle || "0°~6°",
+    onChange: function onChange(e) {
+      return setS('mwAngle')(e.target.value);
+    },
+    style: _objectSpread(_objectSpread({}, bInp), {}, {
+      cursor: "pointer"
+    })
+  }, editSpec.mwType === "Inclined" ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("option", null, "10\xB0~12\xB0"), /*#__PURE__*/React.createElement("option", null, "remark")) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("option", null, "0\xB0~6\xB0"), /*#__PURE__*/React.createElement("option", null, "remark"))), editSpec.mwAngle === "remark" && /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    value: editSpec.mwAngleRemark || "",
+    onChange: function onChange(e) {
+      return setS('mwAngleRemark')(e.target.value);
+    },
+    placeholder: "Specify angle...",
+    style: bInp
+  }))), /*#__PURE__*/React.createElement(F, {
+    label: "Environment",
+    half: true
+  }, /*#__PURE__*/React.createElement("select", {
+    value: editSpec.mwEnvironment || "Indoor",
+    onChange: function onChange(e) {
+      return setS('mwEnvironment')(e.target.value);
+    },
+    style: _objectSpread(_objectSpread({}, bInp), {}, {
+      cursor: "pointer"
+    })
+  }, /*#__PURE__*/React.createElement("option", null, "Indoor"), /*#__PURE__*/React.createElement("option", null, "Semi-outdoor"))), /*#__PURE__*/React.createElement(F, {
+    label: editSpec.mwType === "Inclined" ? "Travel Rise (m)" : "Travel (m)",
+    half: true
+  }, /*#__PURE__*/React.createElement(Inp, {
+    type: "number",
+    v: editSpec.mwType === "Inclined" ? editSpec.mwRise : editSpec.mwTravel,
+    on: editSpec.mwType === "Inclined" ? setS('mwRise') : setS('mwTravel'),
+    ph: "m"
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "Series Model",
+    half: true
+  }, /*#__PURE__*/React.createElement("select", {
+    value: editSpec.mwSeriesModel || "CS-B/CS-BF",
+    onChange: function onChange(e) {
+      return setS('mwSeriesModel')(e.target.value);
+    },
+    style: _objectSpread(_objectSpread({}, bInp), {}, {
+      cursor: "pointer"
+    })
+  }, /*#__PURE__*/React.createElement("option", null, "CS-SB/CS-SBF"), /*#__PURE__*/React.createElement("option", null, "CS-B/CS-BF"), /*#__PURE__*/React.createElement("option", null, "CS-LB/CS-LBF"), /*#__PURE__*/React.createElement("option", null, "CP-B/CP-BF"))), /*#__PURE__*/React.createElement(F, {
+    label: "Applicable Standard"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "7px 10px",
+      background: "var(--color-background-secondary)",
+      borderRadius: 7,
+      fontSize: 12,
+      color: NAV
+    }
+  }, "EN115-1:2017 | Reducer: Worm")), /*#__PURE__*/React.createElement(F, {
+    label: "Remark"
+  }, /*#__PURE__*/React.createElement("textarea", {
+    value: editSpec.mwSpecRemark || "",
+    onChange: function onChange(e) {
+      return setS('mwSpecRemark')(e.target.value);
+    },
+    placeholder: "Technical notes...",
+    rows: 2,
+    style: _objectSpread(_objectSpread({}, bInp), {}, {
+      resize: "vertical"
+    })
+  }))), wizStep === 2 && /*#__PURE__*/React.createElement(Sec, {
+    icon: "\u2728",
+    title: "Appearance and Design"
+  }, /*#__PURE__*/React.createElement(F, {
+    label: "Step/Pallet Lighting",
+    half: true
+  }, /*#__PURE__*/React.createElement(Sel, {
+    v: editSpec.mwStepLighting || "No",
+    on: setS('mwStepLighting'),
+    opts: ["No", "Yes"]
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "Skirt Lighting",
+    half: true
+  }, /*#__PURE__*/React.createElement(Sel, {
+    v: editSpec.mwSkirtLighting || "No",
+    on: setS('mwSkirtLighting'),
+    opts: ["No", "Yes"]
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "Safety Brush",
+    half: true
+  }, /*#__PURE__*/React.createElement(Sel, {
+    v: editSpec.mwSafetyBrush || "Black",
+    on: setS('mwSafetyBrush'),
+    opts: ["Black", "Silver"]
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "Floor Name",
+    half: true
+  }, /*#__PURE__*/React.createElement(Sel, {
+    v: editSpec.mwFloorName || "No",
+    on: setS('mwFloorName'),
+    opts: ["No", "Yes"]
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "Operation Indicator",
+    half: true
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 4
+    }
+  }, /*#__PURE__*/React.createElement("select", {
+    value: editSpec.mwOpIndicator || "ZIN-01",
+    onChange: function onChange(e) {
+      return setS('mwOpIndicator')(e.target.value);
+    },
+    style: _objectSpread(_objectSpread({}, bInp), {}, {
+      cursor: "pointer"
+    })
+  }, ["ZIN-01", "ZIN-02", "ZIN-03", "ZIN-04", "remark"].map(function (o) {
+    return /*#__PURE__*/React.createElement("option", {
+      key: o
+    }, o);
+  })), editSpec.mwOpIndicator === "remark" && /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    value: editSpec.mwOpIndicatorRemark || "",
+    onChange: function onChange(e) {
+      return setS('mwOpIndicatorRemark')(e.target.value);
+    },
+    placeholder: "Specify...",
+    style: bInp
+  }))), /*#__PURE__*/React.createElement(F, {
+    label: "Remark"
+  }, /*#__PURE__*/React.createElement("textarea", {
+    value: editSpec.mwAppRemark || "",
+    onChange: function onChange(e) {
+      return setS('mwAppRemark')(e.target.value);
+    },
+    placeholder: "Appearance notes...",
+    rows: 2,
+    style: _objectSpread(_objectSpread({}, bInp), {}, {
+      resize: "vertical"
+    })
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "General Remark"
+  }, /*#__PURE__*/React.createElement("textarea", {
+    value: editSpec.tseRemarks || "",
+    onChange: function onChange(e) {
+      return setS('tseRemarks')(e.target.value);
+    },
+    placeholder: "General remarks...",
+    rows: 2,
+    style: _objectSpread(_objectSpread({}, bInp), {}, {
+      resize: "vertical"
+    })
+  }))), wizStep === 3 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "var(--color-background-primary)",
+      border: "0.5px solid var(--color-border-tertiary)",
+      borderRadius: 10,
+      overflow: "hidden",
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "9px 14px",
+      background: NAV,
+      color: "#fff",
+      fontSize: 12,
+      fontWeight: 500
+    }
+  }, "\u2B50 Features"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 12
+    }
+  }, /*#__PURE__*/React.createElement(FeatGroup, {
+    icon: "\uD83D\uDEE1\uFE0F",
+    title: "Standard Features"
+  }, /*#__PURE__*/React.createElement(FeatItem, {
+    code: "SMS",
+    label: "Missing Step/Pallet Device",
+    locked: true,
+    checked: true,
+    onChange: function onChange() {}
+  }), /*#__PURE__*/React.createElement(FeatItem, {
+    code: "SSS",
+    label: "Skirt Guard Safety Device",
+    locked: true,
+    checked: true,
+    onChange: function onChange() {}
+  }), /*#__PURE__*/React.createElement(FeatItem, {
+    code: "CRS",
+    label: "Step/Pallet Motion Safety",
+    locked: true,
+    checked: true,
+    onChange: function onChange() {}
+  }), /*#__PURE__*/React.createElement(FeatItem, {
+    code: "HSS",
+    label: "Handrail Speed Safety Device",
+    locked: true,
+    checked: true,
+    onChange: function onChange() {}
+  }), /*#__PURE__*/React.createElement(FeatItem, {
+    code: "SRS",
+    label: "Step/Pallet Level Device",
+    locked: true,
+    checked: true,
+    onChange: function onChange() {}
+  }), /*#__PURE__*/React.createElement(FeatItem, {
+    code: "HGS",
+    label: "Handrail Guard Safety Device",
+    locked: true,
+    checked: true,
+    onChange: function onChange() {}
+  })), /*#__PURE__*/React.createElement(FeatGroup, {
+    icon: "\u26A1",
+    title: "Optional Features",
+    defaultOpen: false
+  }, /*#__PURE__*/React.createElement(FeatItem, {
+    code: "BA",
+    label: "Brake Assist",
+    checked: editFeats.mwBA,
+    onChange: setF('mwBA')
+  }), /*#__PURE__*/React.createElement(FeatItem, {
+    code: "SmartEye",
+    label: "Smart Eye Detection",
+    checked: editFeats.mwSmartEye,
+    onChange: setF('mwSmartEye')
+  }))))), isEsc && /*#__PURE__*/React.createElement(React.Fragment, null, wizStep === 1 && /*#__PURE__*/React.createElement(Sec, {
+    icon: "\u2699\uFE0F",
+    title: "Technical Specification"
+  }, /*#__PURE__*/React.createElement(F, {
+    label: isEsc ? "Escalator No." : "Moving Walk No."
+  }, /*#__PURE__*/React.createElement(Inp, {
+    v: editSpec.elevNo,
+    on: setS('elevNo'),
+    ph: isEsc ? "e.g. ESC-01" : "e.g. MW-01"
   })), /*#__PURE__*/React.createElement(F, {
     label: "Quantity",
     half: true
@@ -6092,6 +6638,7 @@ function App() {
   })), groups.map(function (g, gi) {
     var rows = buildGroupRows(g);
     var isE = g.type === 'escalator';
+    var isMWCard = g.type === 'movingwalk';
     var s = g.spec;
     var isOpen = expanded[g.id] !== false;
     var summary = isE ? "".concat(s.escType, " / Model ").concat(s.escModel, " \xB7 ").concat(s.escSpeed, " m/s \xB7 ").concat(s.escQty, " unit(s)") : "".concat(s.source, " ").concat(s.product, " ").concat(s.code || "", " \xB7 ").concat(s.speed || "", "m/s \xB7 ").concat(s.quantity, " unit(s)");
