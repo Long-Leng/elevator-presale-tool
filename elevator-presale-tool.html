@@ -3535,7 +3535,7 @@ function App() {
   }, function () {
     var isE = draftCard.editSpec.source === 'SMEC';
     var isF = draftCard.editSpec.liftType === 'Freight';
-    var steps = isMWd ? ["Technical Spec", "Appearance", "Features"] : isE ? ["Technical Spec", "Appearance", "Features"] : isF ? ["Source & Product", "Performance", "Car Design & COP", "Entrance & Features", "Local Scope"] : ["Source & Product", "Performance", "Car Design & COP", "Entrance & Features", "Local Scope"];
+    var steps = draftCard.editSpec.product === 'Moving Walk' ? ["Technical Spec", "Appearance", "Features"] : isE ? ["Technical Spec", "Appearance", "Features"] : isF ? ["Source & Product", "Performance", "Car Design & COP", "Entrance & Features", "Local Scope"] : ["Source & Product", "Performance", "Car Design & COP", "Entrance & Features", "Local Scope"];
     var s = draftCard.wizStep || 1;
     return "Step ".concat(s, "/").concat(steps.length, " \u2014 ").concat(steps[s - 1] || "", " (\u0E04\u0E49\u0E32\u0E07\u0E2D\u0E22\u0E39\u0E48)");
   }()), /*#__PURE__*/React.createElement("div", {
