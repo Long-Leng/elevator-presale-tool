@@ -825,6 +825,7 @@ var KICK = ["SUS-HL304", "SUS-HL", "Aluminum", "remark"];
 var GLASS = ["No", "200x800 1 side", "200x800 2 side", "200x1300", "300x1300"];
 var RECESS = ["No", "20 mm", "25 mm", "30 mm", "remark"];
 var FLOORING = ["Vinyl tile", "By local", "remark"];
+var CEIL_MAT = ["Painted by factory", "Painted by local", "PPS", "SUS-HL", "SUS-HL (304)", "SUS-M", "remark"];
 var HR_SIDES = ["1 side (rear)", "2 side", "3 side", "3 side 2 level"];
 var JAMB = ["Painted by local", "Painted by factory", "SUS-HL", "SUS-M", "remark"];
 var GROUP_OP = ["1C-2BC", "2C-2BC", "2C-ΣAI22", "3C-ΣAI22", "4C-ΣAI22", "3C-ΣAI2200C", "4C-ΣAI2200C", "5C-ΣAI2200C", "6C-ΣAI2200C", "7C-ΣAI2200C", "8C-ΣAI2200C", "remark"];
@@ -880,6 +881,8 @@ var INIT_LIFT = {
   ceilingRemark: "",
   recessFloor: "No",
   ceilingType: "",
+  ceilingMaterial: "SUS-HL",
+  ceilingMaterialRemark: "",
   flooring: "Vinyl tile",
   flooringRemark: "",
   carWallFinish: "SUS-HL",
@@ -1301,6 +1304,7 @@ function buildGroupRows(group) {
     if (s.carWidth || s.carDepth) item("Car dimension: ".concat(s.carWidth || '--', " x ").concat(s.carDepth || '--', " mm"));
     if (s.ceilingHeight) item("Ceiling height: ".concat(s.ceilingHeight === 'remark' ? s.ceilingRemark : s.ceilingHeight, " mm"));
     if (s.ceilingType) item("Ceiling type: ".concat(s.ceilingType));
+    if (s.ceilingMaterial) item("Ceiling type material: ".concat(s.ceilingMaterial === 'remark' ? s.ceilingMaterialRemark : s.ceilingMaterial));
     if (s.carWallFinish && !isLocalVal(s.carWallFinish)) item("Car wall: ".concat(s.carWallFinish === 'remark' ? s.carWallFinishRemark : s.carWallFinish));
     if (s.carDoorFinish && !isLocalVal(s.carDoorFinish)) item("Car door: ".concat(s.carDoorFinish === 'remark' ? s.carDoorFinishRemark : s.carDoorFinish));
     if (s.frontReturnPanel && !isLocalVal(s.frontReturnPanel)) item("Front return: ".concat(s.frontReturnPanel === 'remark' ? s.frontReturnPanelRemark : s.frontReturnPanel));
@@ -1392,6 +1396,7 @@ function buildGroupRows(group) {
   if (s.recessFloor && s.recessFloor !== 'No') item("Recess floor: ".concat(s.recessFloor === 'remark' ? s.recessFloorRemark : s.recessFloor));
   if (s.decorationWeight) item("Decoration weight: ".concat(s.decorationWeight, " kg"));
   if (s.ceilingType) item("Ceiling type: ".concat(s.ceilingType));
+  if (s.ceilingMaterial) item("Ceiling type material: ".concat(s.ceilingMaterial === 'remark' ? s.ceilingMaterialRemark : s.ceilingMaterial));
   if (s.carWallFinish && !isLocalVal(s.carWallFinish)) item("Car wall finish: ".concat(s.carWallFinish === 'remark' ? s.carWallFinishRemark : s.carWallFinish));
   if (s.carDoorFinish && !isLocalVal(s.carDoorFinish)) item("Car door finish: ".concat(s.carDoorFinish === 'remark' ? s.carDoorFinishRemark : s.carDoorFinish));
   if (s.flooring && !isLocalVal(s.flooring)) item("Flooring: ".concat(s.flooring === 'remark' ? s.flooringRemark : s.flooring));
@@ -4348,6 +4353,15 @@ function App() {
     on: setS('ceilingType'),
     opts: ceilOpts
   })), /*#__PURE__*/React.createElement(F, {
+    label: "Ceiling Type Material",
+    half: true
+  }, /*#__PURE__*/React.createElement(SelR, {
+    v: editSpec.ceilingMaterial || "SUS-HL",
+    rv: editSpec.ceilingMaterialRemark,
+    on: setS('ceilingMaterial'),
+    onR: setS('ceilingMaterialRemark'),
+    opts: CEIL_MAT
+  })), /*#__PURE__*/React.createElement(F, {
     label: "Flooring",
     half: true
   }, /*#__PURE__*/React.createElement(SelR, {
@@ -6306,6 +6320,15 @@ function App() {
     v: editSpec.ceilingType || "ZCL-SN08S",
     on: setS('ceilingType'),
     opts: ["ZCL-SN08S", "ZCL-SN08"]
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "Ceiling Type Material",
+    half: true
+  }, /*#__PURE__*/React.createElement(SelR, {
+    v: editSpec.ceilingMaterial || "SUS-HL",
+    rv: editSpec.ceilingMaterialRemark,
+    on: setS('ceilingMaterial'),
+    onR: setS('ceilingMaterialRemark'),
+    opts: CEIL_MAT
   })), /*#__PURE__*/React.createElement(F, {
     label: "Car Wall Finish",
     half: true
