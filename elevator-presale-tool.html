@@ -4329,15 +4329,6 @@ function App() {
     onR: setS('ceilingRemark'),
     opts: CH
   })), /*#__PURE__*/React.createElement(F, {
-    label: "Recess Floor",
-    half: true
-  }, /*#__PURE__*/React.createElement(SelR, {
-    v: editSpec.recessFloor || "No",
-    rv: editSpec.recessFloorRemark || "",
-    on: setS('recessFloor'),
-    onR: setS('recessFloorRemark'),
-    opts: RECESS
-  })), /*#__PURE__*/React.createElement(F, {
     label: "Decoration Weight (kg)",
     half: true
   }, /*#__PURE__*/React.createElement(Inp, {
@@ -4361,6 +4352,15 @@ function App() {
     on: setS('ceilingMaterial'),
     onR: setS('ceilingMaterialRemark'),
     opts: CEIL_MAT
+  })), /*#__PURE__*/React.createElement(F, {
+    label: "Recess Floor",
+    half: true
+  }, /*#__PURE__*/React.createElement(SelR, {
+    v: editSpec.recessFloor || "No",
+    rv: editSpec.recessFloorRemark || "",
+    on: setS('recessFloor'),
+    onR: setS('recessFloorRemark'),
+    opts: RECESS
   })), /*#__PURE__*/React.createElement(F, {
     label: "Flooring",
     half: true
