@@ -1875,16 +1875,16 @@ function callAPI(_x) {
   return _callAPI.apply(this, arguments);
 }
 function _callAPI() {
-  _callAPI = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(messages) {
+  _callAPI = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5(messages) {
     var maxTokens,
       r,
       d,
-      _args3 = arguments;
-    return _regenerator().w(function (_context3) {
-      while (1) switch (_context3.n) {
+      _args5 = arguments;
+    return _regenerator().w(function (_context5) {
+      while (1) switch (_context5.n) {
         case 0:
-          maxTokens = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : 1500;
-          _context3.n = 1;
+          maxTokens = _args5.length > 1 && _args5[1] !== undefined ? _args5[1] : 1500;
+          _context5.n = 1;
           return fetch("https://api.anthropic.com/v1/messages", {
             method: "POST",
             headers: {
@@ -1897,16 +1897,16 @@ function _callAPI() {
             })
           });
         case 1:
-          r = _context3.v;
-          _context3.n = 2;
+          r = _context5.v;
+          _context5.n = 2;
           return r.json();
         case 2:
-          d = _context3.v;
-          return _context3.a(2, d.content.map(function (i) {
+          d = _context5.v;
+          return _context5.a(2, d.content.map(function (i) {
             return i.text || "";
           }).join(""));
       }
-    }, _callee3);
+    }, _callee5);
   }));
   return _callAPI.apply(this, arguments);
 }
@@ -1915,19 +1915,19 @@ function callGemini(_x2) {
   return _callGemini.apply(this, arguments);
 }
 function _callGemini() {
-  _callGemini = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(parts) {
+  _callGemini = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6(parts) {
     var key, r, d;
-    return _regenerator().w(function (_context4) {
-      while (1) switch (_context4.n) {
+    return _regenerator().w(function (_context6) {
+      while (1) switch (_context6.n) {
         case 0:
           key = localStorage.getItem('gemini_api_key');
           if (key) {
-            _context4.n = 1;
+            _context6.n = 1;
             break;
           }
           throw new Error('NO_KEY');
         case 1:
-          _context4.n = 2;
+          _context6.n = 2;
           return fetch("".concat(GEMINI_URL, "?key=").concat(key), {
             method: 'POST',
             headers: {
@@ -1940,20 +1940,20 @@ function _callGemini() {
             })
           });
         case 2:
-          r = _context4.v;
-          _context4.n = 3;
+          r = _context6.v;
+          _context6.n = 3;
           return r.json();
         case 3:
-          d = _context4.v;
+          d = _context6.v;
           if (!d.error) {
-            _context4.n = 4;
+            _context6.n = 4;
             break;
           }
           throw new Error(d.error.message);
         case 4:
-          return _context4.a(2, d.candidates[0].content.parts[0].text);
+          return _context6.a(2, d.candidates[0].content.parts[0].text);
       }
-    }, _callee4);
+    }, _callee6);
   }));
   return _callGemini.apply(this, arguments);
 }
@@ -2015,42 +2015,46 @@ function App() {
     _useState28 = _slicedToArray(_useState27, 2),
     showEscModal = _useState28[0],
     setShowEscModal = _useState28[1];
-  var _useState29 = useState(''),
+  var _useState29 = useState(false),
     _useState30 = _slicedToArray(_useState29, 2),
-    saveMsg = _useState30[0],
-    setSaveMsg = _useState30[1];
-  var _useState31 = useState({}),
+    showNewProjModal = _useState30[0],
+    setShowNewProjModal = _useState30[1];
+  var _useState31 = useState(''),
     _useState32 = _slicedToArray(_useState31, 2),
-    expanded = _useState32[0],
-    setExpanded = _useState32[1];
+    saveMsg = _useState32[0],
+    setSaveMsg = _useState32[1];
   var _useState33 = useState({}),
     _useState34 = _slicedToArray(_useState33, 2),
-    errors = _useState34[0],
-    setErrors = _useState34[1];
-  var _useState35 = useState(null),
+    expanded = _useState34[0],
+    setExpanded = _useState34[1];
+  var _useState35 = useState({}),
     _useState36 = _slicedToArray(_useState35, 2),
-    xlsUrl = _useState36[0],
-    setXlsUrl = _useState36[1];
-  var _useState37 = useState(''),
+    errors = _useState36[0],
+    setErrors = _useState36[1];
+  var _useState37 = useState(null),
     _useState38 = _slicedToArray(_useState37, 2),
-    xlsName = _useState38[0],
-    setXlsName = _useState38[1];
-  var _useState39 = useState(false),
+    xlsUrl = _useState38[0],
+    setXlsUrl = _useState38[1];
+  var _useState39 = useState(''),
     _useState40 = _slicedToArray(_useState39, 2),
-    uploading = _useState40[0],
-    setUploading = _useState40[1];
-  var _useState41 = useState(null),
+    xlsName = _useState40[0],
+    setXlsName = _useState40[1];
+  var _useState41 = useState(false),
     _useState42 = _slicedToArray(_useState41, 2),
-    uploadError = _useState42[0],
-    setUploadError = _useState42[1];
-  var _useState43 = useState(false),
+    uploading = _useState42[0],
+    setUploading = _useState42[1];
+  var _useState43 = useState(null),
     _useState44 = _slicedToArray(_useState43, 2),
-    showKeyModal = _useState44[0],
-    setShowKeyModal = _useState44[1];
-  var _useState45 = useState(''),
+    uploadError = _useState44[0],
+    setUploadError = _useState44[1];
+  var _useState45 = useState(false),
     _useState46 = _slicedToArray(_useState45, 2),
-    geminiKeyInput = _useState46[0],
-    setGeminiKeyInput = _useState46[1];
+    showKeyModal = _useState46[0],
+    setShowKeyModal = _useState46[1];
+  var _useState47 = useState(''),
+    _useState48 = _slicedToArray(_useState47, 2),
+    geminiKeyInput = _useState48[0],
+    setGeminiKeyInput = _useState48[1];
   var fileRef = useRef(null);
   var importRef = useRef(null);
   var exportJSON = function exportJSON() {
@@ -2412,11 +2416,44 @@ function App() {
       });
     });
   };
-  var generateXls = /*#__PURE__*/function () {
-    var _generateXls = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
-      var ExcelJS, wb, NAV, WHT, SECL, AMBL, AMBD, BLU, GRP, ALT, SUBH, fs, bd, al, FEAT_HDRS, LOCAL_SCOPE_GREEN, LOCAL_BG, FACTORY_BG, ws0, addMerged, sh, tot, tr, buf, blob;
+  var newProject = /*#__PURE__*/function () {
+    var _newProject = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+      var _t2;
       return _regenerator().w(function (_context2) {
-        while (1) switch (_context2.n) {
+        while (1) switch (_context2.p = _context2.n) {
+          case 0:
+            _context2.p = 0;
+            _context2.n = 1;
+            return window.storage.delete('pres_proj');
+          case 1:
+            _context2.n = 2;
+            return window.storage.delete('pres_groups');
+          case 2:
+            _context2.n = 4;
+            break;
+          case 3:
+            _context2.p = 3;
+            _t2 = _context2.v;
+          case 4:
+            setProj(INIT_PROJ);
+            setGroups([]);
+            setShowNewProjModal(false);
+            setView('list');
+          case 5:
+            return _context2.a(2);
+        }
+      }, _callee2, null, [[0, 3]]);
+    }));
+    function newProject() {
+      return _newProject.apply(this, arguments);
+    }
+    return newProject;
+  }();
+  var generateXls = /*#__PURE__*/function () {
+    var _generateXls = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+      var ExcelJS, wb, NAV, WHT, SECL, AMBL, AMBD, BLU, GRP, ALT, SUBH, fs, bd, al, FEAT_HDRS, LOCAL_SCOPE_GREEN, LOCAL_BG, FACTORY_BG, ws0, addMerged, sh, tot, tr, buf, blob;
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.n) {
           case 0:
             ExcelJS = window.ExcelJS;
             wb = new ExcelJS.Workbook();
@@ -2656,10 +2693,10 @@ function App() {
                 }
               });
             });
-            _context2.n = 1;
+            _context3.n = 1;
             return wb.xlsx.writeBuffer();
           case 1:
-            buf = _context2.v;
+            buf = _context3.v;
             blob = new Blob([buf], {
               type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             });
@@ -2667,9 +2704,9 @@ function App() {
             setXlsUrl(URL.createObjectURL(blob));
             setXlsName((proj.name || 'PreSale') + '_' + (proj.date || 'inquiry') + '_' + proj.rev + '.xlsx');
           case 2:
-            return _context2.a(2);
+            return _context3.a(2);
         }
-      }, _callee2);
+      }, _callee3);
     }));
     function generateXls() {
       return _generateXls.apply(this, arguments);
@@ -3106,6 +3143,118 @@ function App() {
       fontSize: 12,
       color: "var(--color-text-secondary)"
     }
+  }, "Cancel")))), showNewProjModal && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.5)",
+      zIndex: 300,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 20
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#fff",
+      borderRadius: 12,
+      padding: 24,
+      maxWidth: 380,
+      width: "100%"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
+      marginBottom: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 36,
+      height: 36,
+      borderRadius: 18,
+      background: "#fef3c7",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0,
+      fontSize: 18
+    }
+  }, "\u26A0\uFE0F"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 500
+    }
+  }, "Start a new project?")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: "var(--color-text-secondary)",
+      lineHeight: 1.6,
+      marginBottom: 16
+    }
+  }, "This clears the current project \u2014 ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: "var(--color-text-primary)"
+    }
+  }, proj.name || "Unnamed"), ", ", groups.length, " group(s). Export it first if you haven't saved a copy."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: /*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+      return _regenerator().w(function (_context4) {
+        while (1) switch (_context4.n) {
+          case 0:
+            _context4.n = 1;
+            return generateXls();
+          case 1:
+            setView('stage2');
+            setShowNewProjModal(false);
+          case 2:
+            return _context4.a(2);
+        }
+      }, _callee4);
+    })),
+    style: {
+      width: "100%",
+      padding: "9px",
+      fontSize: 13,
+      background: "var(--color-background-secondary)",
+      border: "0.5px solid var(--color-border-strong)",
+      borderRadius: 7,
+      cursor: "pointer",
+      fontFamily: "inherit"
+    }
+  }, "\uD83D\uDCE5 Export Excel first"), /*#__PURE__*/React.createElement("button", {
+    onClick: newProject,
+    style: {
+      width: "100%",
+      padding: "9px",
+      fontSize: 13,
+      background: "var(--color-background-danger)",
+      color: "var(--color-text-danger)",
+      border: "0.5px solid var(--color-border-danger)",
+      borderRadius: 7,
+      cursor: "pointer",
+      fontFamily: "inherit"
+    }
+  }, "Clear and start new"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setShowNewProjModal(false);
+    },
+    style: {
+      width: "100%",
+      padding: "9px",
+      fontSize: 13,
+      background: "transparent",
+      border: "none",
+      color: "var(--color-text-secondary)",
+      cursor: "pointer",
+      fontFamily: "inherit"
+    }
   }, "Cancel")))), view !== 'edit' && /*#__PURE__*/React.createElement("div", {
     className: "no-print",
     style: {
@@ -3119,10 +3268,10 @@ function App() {
       alignItems: "center",
       marginBottom: 0
     }
-  }, [["Group List", "list"], ["Preview Form", "stage2"]].map(function (_ref0) {
-    var _ref1 = _slicedToArray(_ref0, 2),
-      l = _ref1[0],
-      v = _ref1[1];
+  }, [["Group List", "list"], ["Preview Form", "stage2"]].map(function (_ref1) {
+    var _ref10 = _slicedToArray(_ref1, 2),
+      l = _ref10[0],
+      v = _ref10[1];
     return /*#__PURE__*/React.createElement("button", {
       key: v,
       onClick: function onClick() {
@@ -3605,10 +3754,10 @@ function App() {
       gridTemplateColumns: "repeat(3,1fr)",
       gap: 8
     }
-  }, [[draftCard.editSpec.product === 'Moving Walk' ? 'Moving Walk No.' : draftCard.editSpec.source === 'SMEC' ? 'Escalator No.' : 'Elevator No.', draftCard.editSpec.elevNo || "—"], ["Product", draftCard.editSpec.product || "—"], ["Code", draftCard.editSpec.code || "—"], ["Speed", draftCard.editSpec.speed ? draftCard.editSpec.speed + " m/s" : "—"], ["Capacity", draftCard.editSpec.kg ? draftCard.editSpec.kg + " kg" : "—"], ["Door Type", draftCard.editSpec.doorType || "—"]].map(function (_ref10) {
-    var _ref11 = _slicedToArray(_ref10, 2),
-      l = _ref11[0],
-      v = _ref11[1];
+  }, [[draftCard.editSpec.product === 'Moving Walk' ? 'Moving Walk No.' : draftCard.editSpec.source === 'SMEC' ? 'Escalator No.' : 'Elevator No.', draftCard.editSpec.elevNo || "—"], ["Product", draftCard.editSpec.product || "—"], ["Code", draftCard.editSpec.code || "—"], ["Speed", draftCard.editSpec.speed ? draftCard.editSpec.speed + " m/s" : "—"], ["Capacity", draftCard.editSpec.kg ? draftCard.editSpec.kg + " kg" : "—"], ["Door Type", draftCard.editSpec.doorType || "—"]].map(function (_ref11) {
+    var _ref12 = _slicedToArray(_ref11, 2),
+      l = _ref12[0],
+      v = _ref12[1];
     return /*#__PURE__*/React.createElement("div", {
       key: l,
       style: {
@@ -3783,10 +3932,10 @@ function App() {
         gap: 16,
         flexWrap: "wrap"
       }
-    }, /*#__PURE__*/React.createElement("span", null, "\u2699\uFE0F ", s.escOperation || "—"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCE6 ", s.escQty || 1, " unit(s)"))) : [["Code", s.code || "—"], ["Capacity", s.kg ? "".concat(s.kg, " kg (").concat(s.persons, "P)") : "—"], ["Speed", s.speed ? "".concat(s.speed, " m/s") : "—"], ["Door", s.doorType ? "".concat(s.doorType).concat(s.carDoorWidth && s.carDoorWidth !== "remark" ? " — " + s.carDoorWidth + "mm" : "") : "—"], ["No. of stop", s.floor || "—"], ["Quantity", "".concat(s.quantity, " unit(s)")]].map(function (_ref12) {
-      var _ref13 = _slicedToArray(_ref12, 2),
-        l = _ref13[0],
-        v = _ref13[1];
+    }, /*#__PURE__*/React.createElement("span", null, "\u2699\uFE0F ", s.escOperation || "—"), /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCE6 ", s.escQty || 1, " unit(s)"))) : [["Code", s.code || "—"], ["Capacity", s.kg ? "".concat(s.kg, " kg (").concat(s.persons, "P)") : "—"], ["Speed", s.speed ? "".concat(s.speed, " m/s") : "—"], ["Door", s.doorType ? "".concat(s.doorType).concat(s.carDoorWidth && s.carDoorWidth !== "remark" ? " — " + s.carDoorWidth + "mm" : "") : "—"], ["No. of stop", s.floor || "—"], ["Quantity", "".concat(s.quantity, " unit(s)")]].map(function (_ref13) {
+      var _ref14 = _slicedToArray(_ref13, 2),
+        l = _ref14[0],
+        v = _ref14[1];
       return /*#__PURE__*/React.createElement("div", {
         key: l,
         style: {
@@ -3834,7 +3983,25 @@ function App() {
       cursor: "pointer",
       fontFamily: "inherit"
     }
-  }, "Preview Inquiry Form \u2192"))), view === 'edit' && editSpec && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  }, "Preview Inquiry Form \u2192"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 10
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setShowNewProjModal(true);
+    },
+    style: {
+      padding: "7px 16px",
+      background: "transparent",
+      color: "var(--color-text-muted)",
+      border: "0.5px solid var(--color-border-secondary)",
+      borderRadius: 7,
+      fontSize: 11.5,
+      cursor: "pointer",
+      fontFamily: "inherit"
+    }
+  }, "+ New Project")))), view === 'edit' && editSpec && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       alignItems: "center",
@@ -6681,10 +6848,10 @@ function App() {
       gap: 20,
       flexWrap: "wrap"
     }
-  }, [["Groups", groups.length], ["Total Units", totalUnits], ["Date", proj.date || "—"], ["Revision", proj.rev]].map(function (_ref14) {
-    var _ref15 = _slicedToArray(_ref14, 2),
-      l = _ref15[0],
-      v = _ref15[1];
+  }, [["Groups", groups.length], ["Total Units", totalUnits], ["Date", proj.date || "—"], ["Revision", proj.rev]].map(function (_ref15) {
+    var _ref16 = _slicedToArray(_ref15, 2),
+      l = _ref16[0],
+      v = _ref16[1];
     return /*#__PURE__*/React.createElement("div", {
       key: l
     }, /*#__PURE__*/React.createElement("div", {
